@@ -55,6 +55,8 @@ public class ScheduleController {
 			return new ScheduleDTO[0];   // return empty schedule for unknown student.
 		}
 	}
+	
+	
 	/*
 	 * add a course for a student
 	 */

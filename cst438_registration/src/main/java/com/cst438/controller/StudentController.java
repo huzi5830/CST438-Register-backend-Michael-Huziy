@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cst438.domain.CourseRepository;
+import com.cst438.domain.Enrollment;
 import com.cst438.domain.EnrollmentRepository;
 import com.cst438.domain.StudentRepository;
 import com.cst438.service.GradebookService;
@@ -65,7 +66,15 @@ public class StudentController {
 	@DeleteMapping("/deleteStudent/{id}")
 	public ResponseEntity<String>  deleteStudent(@PathVariable  int id ) {
 		Student student = studentRepository.findById(id).orElse(null);
+		List <Enrollment> enrolls = (List<Enrollment>) enrollmentRepository.findAll();
 		  if (student != null) {
+					for (int i =0;i<enrolls.size();i++) {
+						if (enrolls.get(i).getStudent().getStudent_id() == id) {
+							if (enrolls.get(i).getStudent().getStatusCode() == 1) {
+								System.out.print("WARNING: This student is enrolled, are you sure you want to delete this student?(y/n)");
+							}
+						}
+					}
 		        studentRepository.delete(student);
 		        return ResponseEntity.ok("Student deleted successfully");
 		    } else {

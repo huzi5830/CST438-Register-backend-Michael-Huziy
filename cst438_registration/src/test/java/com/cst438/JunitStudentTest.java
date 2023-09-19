@@ -216,8 +216,8 @@ public class JunitStudentTest {
 	public void deleteStudentTest() throws Exception {
 		Scanner scan = new Scanner(System.in);
 		MockHttpServletResponse response;
-		List<Student> students = studentRepository.findAll();
 		List <Enrollment> enrolls = (List<Enrollment>) enrollmentRepository.findAll();
+	
 		/*Student studentToDelete = new Student();
 		studentToDelete.setName("DeleteName");
 		studentToDelete.setStatusCode(1);
@@ -238,30 +238,16 @@ public class JunitStudentTest {
 		int exit = 0;
 		
 		while (exit != 1) {
+			List<Student> students = studentRepository.findAll();
+			for(int i = 0;i<students.size();i++) {
+				System.out.println("ID:" +  students.get(i).getStudent_id());
+				System.out.println(students.get(i).getName());
+				
+			}
 			String ok = "y";
 			int id =0;
-			
-			do {
-				for(int i = 0;i<students.size();i++) {
-					System.out.println("ID:" +  students.get(i).getStudent_id());
-				}
 			System.out.print("\nEnter the id of the student to delete:");
 			id = scan.nextInt();
-			for (int i =0;i<enrolls.size();i++) {
-				if (enrolls.get(i).getStudent().getStudent_id() == id) {
-					if (enrolls.get(i).getStudent().getStatusCode() == 1) {
-						System.out.print("WARNING: This student is enrolled, are you sure you want to delete this student?(y/n)");
-						ok = scan.next();
-						if (ok == "n") {
-							System.out.print(String.format("Enter %d if you wish to delete another student, or %d if you wish to exit: ",0,1) );
-							exit = scan.nextInt();
-							if (exit == 1) {return;}
-						}
-					}
-				}
-			}
-			}while(ok != "y");
-			
 				response = mvc.perform(
 					MockMvcRequestBuilders
 					.delete("/deleteStudent/" + id)
@@ -273,6 +259,10 @@ public class JunitStudentTest {
 				Optional<Student> student = studentRepository.findById(id);
 				assert(student.isEmpty());
 				System.out.print(String.format("Enter %d if you wish to delete another student, or %d if you wish to exit: ",0,1) );
+				exit = scan.nextInt();
+			}
+			else if (response.getStatus() == 409) {
+				System.out.print(String.format("Do you wish to delete another student? Enter %d if you wish to delete another student, or %d if you wish to exit: ",0,1) );
 				exit = scan.nextInt();
 			}
 			else {

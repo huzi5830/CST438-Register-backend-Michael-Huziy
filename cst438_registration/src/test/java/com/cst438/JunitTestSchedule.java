@@ -33,7 +33,7 @@ public class JunitTestSchedule {
 	 */
 	@Test
 	public void addCourse()  throws Exception {
-		
+		System.out.println("Failed");
 		MockHttpServletResponse response;
 
 		response = mvc.perform(

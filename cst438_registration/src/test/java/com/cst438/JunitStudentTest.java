@@ -131,29 +131,29 @@ public class JunitStudentTest {
 		assertEquals(200, response.getStatus());
 		
 		ObjectMapper objectMapper = new ObjectMapper();
-	    Student[] students = objectMapper.readValue(response.getContentAsString(), Student[].class);
-	   /* Scanner scan = new Scanner(System.in);
+	    StudentDTO[] students = objectMapper.readValue(response.getContentAsString(), StudentDTO[].class);
+	    Scanner scan = new Scanner(System.in);
 	    System.out.print("Test: " +  ("Name " + (char) (i+65)));
 	    System.out.print("Test2: " + (char)(i+65) + "@email.com");
-	    scan.nextInt();
-	    scan.close();*/
-	    for (Student student: students) {
-	    	switch(student.getStatusCode()) {
+	   // scan.nextInt();
+	    scan.close();
+	    for (StudentDTO student: students) {
+	    	switch(student.statusCode()) {
 	    	case 100:
-	    		assertEquals(student.getName(),"Name A" );
-	    		assertEquals(student.getEmail(),"A@email.com");
+	    		assertEquals(student.name(),"Name A" );
+	    		assertEquals(student.email(),"A@email.com");
 	    		break;
 	    	case 101:
-	    		assertEquals(student.getName(), "Name B");
-	    		assertEquals(student.getEmail(),"B@email.com");
+	    		assertEquals(student.name(), "Name B");
+	    		assertEquals(student.email(),"B@email.com");
 	    		break;
 	    	case 102:
-	    		assertEquals(student.getName(), "Name C");
-	    		assertEquals(student.getEmail(),"C@email.com");
+	    		assertEquals(student.name(), "Name C");
+	    		assertEquals(student.email(),"C@email.com");
 	    		break;
 	    	default:
-	    	assertNotNull(student.getStudent_id());
-	    	assertNotNull(student.getName());
+	    	assertNotNull(student.id());
+	    	assertNotNull(student.name());
 	    	break;
 	    	}
 	    }
@@ -174,7 +174,8 @@ public class JunitStudentTest {
 			System.out.print("Enter the Id of the student to update:");
 			int id = scan.nextInt();
 			scan.nextLine();
-			Optional<Student> studentO = studentRepository.findById(id);
+			Optional<Student> studentO = studentRepository.findById(id);//check for existence here to not 
+			                                                            //waste time entering data for an empty student in repo
 			String email = "0";
 			
 			if (studentO.isPresent() ) {
@@ -184,12 +185,12 @@ public class JunitStudentTest {
 				setUpdateEmail(scan);
 				student.setEmail(email);
 				System.out.println("Enter new status: ");
-				student.setEmail(scan.nextLine());
+				student.setStatus(scan.nextLine());
 				String studentJson =asJsonString(student); 
 				
 				response = mvc.perform(
 							MockMvcRequestBuilders
-							.post("/updateStudent/"+ id)
+							.put("/updateStudent/"+ id)
 							.contentType(MediaType.APPLICATION_JSON)
 							.content(studentJson)
 							.accept(MediaType.APPLICATION_JSON))
@@ -238,11 +239,10 @@ public class JunitStudentTest {
 		int exit = 0;
 		
 		while (exit != 1) {
-			List<Student> students = studentRepository.findAll();
+			List<Student> students = studentRepository.findAll();//Simulate access to student id's on hand
 			for(int i = 0;i<students.size();i++) {
 				System.out.println("ID:" +  students.get(i).getStudent_id());
 				System.out.println(students.get(i).getName());
-				
 			}
 			String ok = "y";
 			int id =0;

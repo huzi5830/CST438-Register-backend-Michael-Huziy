@@ -44,7 +44,7 @@ public class StudentController {
 	
 	@GetMapping("/students")
 	public StudentDTO[]  getAllStudents() {
-		//System.out.println("Getting all students");
+		System.out.println("Getting all students");
 		 Iterable<Student> students = studentRepository.findAll();
 		 int size= (int) students.spliterator().getExactSizeIfKnown();
 		 StudentDTO[] studentDTOs = new StudentDTO[size];

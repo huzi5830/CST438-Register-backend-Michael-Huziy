@@ -53,8 +53,13 @@ public class EndToEndRegistrationTests {
 		try {
 			driver.get(URL);
 			Thread.sleep(SLEEP_DURATION);
-			WebElement adminLink = driver.findElement(By.linkText("Admin"));
-			adminLink.click();
+			//WebElement adminLink = driver.findElement(By.linkText("Admin"));
+			WebElement user = driver.findElement(By.name("username"));
+			user.sendKeys("admin");
+			WebElement pass = driver.findElement(By.name("password"));
+			pass.sendKeys("admin");
+			driver.findElement(By.id("submit")).click();
+			//adminLink.click();
 			System.out.println("CLICKED ADMIN");
 			Thread.sleep(SLEEP_DURATION);
 			driver.findElement(By.id("custom-button")).click();
@@ -103,9 +108,12 @@ public class EndToEndRegistrationTests {
 		try {
 			driver.get(URL);
 			Thread.sleep(SLEEP_DURATION);
-			WebElement adminLink = driver.findElement(By.linkText("Admin"));
-			adminLink.click();
-			System.out.println("CLICKED ADMIN");
+			//WebElement adminLink = driver.findElement(By.linkText("Admin"));
+			WebElement user = driver.findElement(By.name("username"));
+			user.sendKeys("admin");
+			WebElement pass = driver.findElement(By.name("password"));
+			pass.sendKeys("admin");
+			driver.findElement(By.id("submit")).click();
 			Thread.sleep(SLEEP_DURATION);
 			
 			driver.findElement(By.id("custom-button")).click();
@@ -177,9 +185,12 @@ public class EndToEndRegistrationTests {
 		try {
 			driver.get(URL);
 			Thread.sleep(SLEEP_DURATION);
-			WebElement adminLink = driver.findElement(By.linkText("Admin"));
-			adminLink.click();
-			System.out.println("CLICKED ADMIN");
+			//WebElement adminLink = driver.findElement(By.linkText("Admin"));
+			WebElement user = driver.findElement(By.name("username"));
+			user.sendKeys("admin");
+			WebElement pass = driver.findElement(By.name("password"));
+			pass.sendKeys("admin");
+			driver.findElement(By.id("submit")).click();
 			Thread.sleep(SLEEP_DURATION);
 			driver.findElement(By.id("custom-button")).click();
 			Thread.sleep(SLEEP_DURATION);

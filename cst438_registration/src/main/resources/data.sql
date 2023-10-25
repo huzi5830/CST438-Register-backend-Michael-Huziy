@@ -19,3 +19,8 @@ insert into enrollment values
 (2, 2, 2020, 'Fall', 30163, null),
 (4, 2, 2020, 'Fall', 31045, null),
 (5, 4, 2020, 'Fall', 40443 , null);
+
+insert into user_table
+(alias, email, password, role) values 
+('tom', 'tom@csumd.edu', '$2a$10$h/92Jk8.WdRsixr.NIndJuD6Pp0KiZag7Q48glJMTbp48WZIOYRDu','STUDENT');
+

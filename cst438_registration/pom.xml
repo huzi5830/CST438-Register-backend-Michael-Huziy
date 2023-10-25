@@ -78,7 +78,12 @@
 			<scope>test</scope>
 		</dependency>
 		<!-- end selenium -->
-		
+
+		<dependency>
+			<groupId>com.cst438</groupId>
+			<artifactId>MultiplyGame1</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>

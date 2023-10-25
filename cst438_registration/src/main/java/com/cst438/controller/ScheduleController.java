@@ -1,5 +1,6 @@
 package com.cst438.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,10 +42,11 @@ public class ScheduleController {
 	 * get current schedule for student.
 	 */
 	@GetMapping("/schedule")
-	public ScheduleDTO[] getSchedule( @RequestParam("year") int year, @RequestParam("semester") String semester ) {
+	public ScheduleDTO[] getSchedule(Principal prin,@RequestParam("year") int year, @RequestParam("semester") String semester ) {
 		System.out.println("/schedule called.");
+		//$2a$10$bcH6oDhavZ8sPsm6zFHAIeYjVqMHhkcue0dZHh8vlN4bKp8suvy4O
 		String student_email = "test@csumb.edu";   // student's email 
-		
+		//System.out.println(prin.getName());
 		Student student = studentRepository.findByEmail(student_email);
 		if (student != null) {
 			System.out.println("/schedule student "+student.getName()+" "+student.getStudent_id());
@@ -62,7 +64,8 @@ public class ScheduleController {
 	 */
 	@PostMapping("/schedule/course/{id}")
 	@Transactional
-	public ScheduleDTO addCourse( @PathVariable int id  ) { 
+	public ScheduleDTO addCourse(@PathVariable int id  ) { 
+		System.out.println("NOT NULL");
 		String student_email = "test@csumb.edu";   // student's email 
 		Student student = studentRepository.findByEmail(student_email);
 		Course course  = courseRepository.findById(id).orElse(null);
@@ -70,6 +73,7 @@ public class ScheduleController {
 		// = 0  ok to register.  != 0 registration is on hold.		
 		if (student!= null && course!=null && student.getStatusCode()==0) {
 			// TODO check that today's date is not past add deadline for the course.
+			System.out.println("NOT NULL");
 			Enrollment enrollment = new Enrollment();
 			enrollment.setStudent(student);
 			enrollment.setCourse(course);
@@ -81,6 +85,7 @@ public class ScheduleController {
 			ScheduleDTO result = createSchedule(enrollment);
 			return result;
 		} else {
+			System.out.println("NULL");
 			throw  new ResponseStatusException( HttpStatus.BAD_REQUEST, "Course_id invalid or student not allowed to register for the course.  "+id);
 		}	
 	}
